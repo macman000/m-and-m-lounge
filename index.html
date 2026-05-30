@@ -396,7 +396,7 @@ footer strong{color:var(--accent)}
 
 <footer>
   <p>Made with care by <strong>Mac &amp; Minnie</strong> &mdash; in our living room.</p>
-  <p style="margin-top:.3rem;font-size:.75rem">&copy; M&amp;M's Lounge &mdash; Please do not copy. (we will know)</p>
+  <p style="margin-top:.3rem;font-size:.75rem">&copy; M&amp;M's Lounge &mdash; Please do not copy.</p>
 </footer>
 
 <script>
@@ -404,11 +404,10 @@ footer strong{color:var(--accent)}
 // ACCOUNTS — add member passwords below, owners are pre-set
 // ============================================================
 const ACCOUNTS = [
-  { name: 'Mac M.',       password: 'Iammac5820',    role: 'owner'  },
-  { name: 'Minnie M.',    password: 'rocks', role: 'owner'  },
-  { name: 'Jorie Mellors',  password: 'Boogerbooger',     role: 'member' },
-  { name: 'Nicholas Mellors',   password: '987654321',   role: 'member' },
-];
+  // Owners — set your passwords in the lines below
+  { name: 'Mac M.',    password: 'PASSWORD_MAC_HERE',    role: 'owner'  },
+  { name: 'Minnie M.', password: 'PASSWORD_MINNIE_HERE', role: 'owner'  },
+  // Regular members (from google form — add more as needed)
 ];
 
 // Attempt to restore session
