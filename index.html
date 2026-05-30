@@ -189,11 +189,11 @@ footer strong{color:var(--accent)}
     </div>
   </div>
   <nav class="header-nav">
-    <a onclick="showPage('home')" id="nav-home">Home</a>
-    <a onclick="showPage('about')" id="nav-about">About</a>
-    <a onclick="showPage('menu')" id="nav-menu">Snack Menu</a>
-    <a onclick="showPage('gallery')" id="nav-gallery">Gallery</a>
-    <a onclick="showPage('login')" id="nav-login">Login</a>
+    <a href="#" onclick="showPage('home');return false;" id="nav-home">Home</a>
+    <a href="#" onclick="showPage('about');return false;" id="nav-about">About</a>
+    <a href="#" onclick="showPage('menu');return false;" id="nav-menu">Snack Menu</a>
+    <a href="#" onclick="showPage('gallery');return false;" id="nav-gallery">Gallery</a>
+    <a href="#" onclick="showPage('login');return false;" id="nav-login">Login</a>
   </nav>
 </header>
 
@@ -269,7 +269,7 @@ footer strong{color:var(--accent)}
     <button class="btn" onclick="postComment()">Submit</button>
   </div>
   <div id="comment-section-locked" class="login-required">
-    You need to <a onclick="showPage('login')">sign in</a> to leave an entry.
+    You need to <a href="#" onclick="showPage('login');return false;">sign in</a> to leave an entry.
   </div>
 </section>
 
