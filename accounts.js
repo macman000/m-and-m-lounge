@@ -6,6 +6,6 @@ const ACCOUNTS = [
   { name: 'Mac M.',    password: 'PASSWORD_MAC_HERE',    role: 'owner'  },
   { name: 'Minnie M.', password: 'PASSWORD_MINNIE_HERE', role: 'owner'  },
   // Add members below:
-  // { name: 'Jorie Mellors',  password: 'theirpassword', role: 'member' },
-  // { name: 'Nicholas ???',   password: 'theirpassword', role: 'member' },
+  { name: 'Jorie Mellors',  password: 'Boogerbooger', role: 'member' },
+  { name: 'Nicholas Mellors',   password: '987654321', role: 'member' },
 ];
