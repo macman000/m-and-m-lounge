@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home — M&amp;M's Lounge</title>
+<title>Login — M&amp;M's Lounge</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -189,54 +189,32 @@ footer strong{color:var(--accent)}
     </div>
     <button id="logout-btn" onclick="logout()">Sign out</button>
   </div>
-  <div style="margin-bottom:2rem">
-    <h1 class="section-title">Welcome to Our Lounge</h1>
-    <p class="section-sub">The coolest hangout spot in the living room &mdash; members since forever.</p>
-  </div>
-
-  <div class="welcome-card">
-    <h3>What is M&amp;M's Lounge?</h3>
-    <p>Hi!! This is our website that me and my brother made right here in our living room. We worked SO hard on it. Minnie did most of the decorating stuff and Mac helped with ideas and kept asking when snacks were ready.</p>
-    <p>Our lounge is a place where cool people can hang out! We have real members now (hi Jorie and Nicholas 👋) and if you want to join you gotta fill out our form.</p>
-  </div>
-
-  <div class="rules-card" style="margin-top:1rem">
-    <h3>The Official Rules of M&amp;M's Lounge</h3>
-    <ol>
-      <li>Be nice or leave.</li>
-      <li>No being mean about our website &mdash; we tried our best.</li>
-      <li>Members-only stuff is for members only.</li>
-      <li>You have to say hi when you visit. It's polite.</li>
-      <li>No touching Mac's Legos without asking.</li>
-      <li>Have fun or else.</li>
-    </ol>
-  </div>
-
-  <hr class="divider">
-
-  <h2 class="section-title" style="font-size:1.4rem">Guestbook</h2>
-  <p class="section-sub">Sign your name and leave a note. Members only.</p>
-
-  <div id="guestbook-entries">
-    <div class="guestbook-entry">
-      <div><span class="gb-name">Minnie</span><span class="gb-badge gb-owner">Owner</span></div>
-      <div class="gb-text">Welcome to M&amp;M's Lounge. We hope you enjoy your visit.</div>
-      <div class="gb-time">Founder</div>
-    </div>
-    <div class="guestbook-entry">
-      <div><span class="gb-name">Mac</span><span class="gb-badge gb-owner">Owner</span></div>
-      <div class="gb-text">Thanks for stopping by. &mdash; Mac</div>
-      <div class="gb-time">Founder</div>
+  <div id="already-logged-in" style="display:none">
+    <div class="already-in">
+      <span style="font-size:2.5rem">&#10003;</span>
+      <h3>You're signed in</h3>
+      <p>Welcome back, <strong id="logged-in-name-display"></strong>.</p>
+      <button class="btn btn-outline" onclick="logout()">Sign Out</button>
     </div>
   </div>
 
-  <div id="comment-section-logged-in" class="comment-form" style="display:none">
-    <p>Leave a note for the record:</p>
-    <textarea id="comment-text" rows="3" placeholder="Your message..."></textarea><br>
-    <button class="btn" onclick="postComment()">Submit</button>
-  </div>
-  <div id="comment-section-locked" class="login-required">
-    You need to <a href="login.html">sign in</a> to leave an entry.
+  <div id="login-form-wrapper">
+    <h1 class="section-title">Member Login</h1>
+    <p class="section-sub" style="margin-bottom:1.5rem">Sign in with your name and password.</p>
+
+    <div class="login-card">
+      <label for="login-name">Full Name</label>
+      <input type="text" id="login-name" placeholder="First and Last name" autocomplete="name">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password">
+      <div class="login-error" id="login-error">Incorrect name or password. Please try again.</div>
+      <div class="login-success" id="login-success">Signed in successfully. Welcome!</div>
+      <button class="login-btn" onclick="doLogin()">Sign In</button>
+    </div>
+
+    <div class="login-tip">
+      Your name is your full name (like "Jorie Mellors") and your password is whatever you wrote on our form. If you forgot, ask Mac or Minnie.
+    </div>
   </div>
 </main>
 <footer>
@@ -307,30 +285,53 @@ updateUI();
 <script>
 // Highlight active nav link
 document.querySelectorAll('.header-nav a').forEach(a => {
-  if (a.id === 'nav-home') a.classList.add('active');
+  if (a.id === 'nav-login') a.classList.add('active');
 });
 
-const li = !!currentUser;
-document.getElementById('comment-section-logged-in').style.display = li ? 'block' : 'none';
-document.getElementById('comment-section-locked').style.display = li ? 'none' : 'block';
-
-function postComment() {
-  if (!currentUser) return;
-  const txt = document.getElementById('comment-text').value.trim();
-  if (!txt) return;
-  const entry = { name: currentUser, role: currentRole, text: txt, time: new Date().toLocaleDateString() };
-  renderComment(entry);
-  document.getElementById('comment-text').value = '';
+// Show already-logged-in state if session exists
+if (currentUser) {
+  document.getElementById('login-form-wrapper').style.display = 'none';
+  document.getElementById('already-logged-in').style.display = 'block';
+  const ld = document.getElementById('logged-in-name-display');
+  if (ld) ld.textContent = currentUser;
 }
-function renderComment(entry) {
-  const container = document.getElementById('guestbook-entries');
-  const div = document.createElement('div');
-  div.className = 'guestbook-entry';
-  const badgeClass = entry.role === 'owner' ? 'gb-badge gb-owner' : 'gb-badge';
-  const badgeLabel = entry.role === 'owner' ? 'Owner' : 'Member';
-  div.innerHTML = '<div><span class="gb-name">' + esc(entry.name) + '</span><span class="' + badgeClass + '">' + badgeLabel + '</span></div><div class="gb-text">' + esc(entry.text) + '</div><div class="gb-time">' + esc(entry.time) + '</div>';
-  container.appendChild(div);
-  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('login-name').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-password').focus(); });
+
+function doLogin() {
+  const nameInput = document.getElementById('login-name').value.trim();
+  const passInput = document.getElementById('login-password').value.trim();
+  const errorEl   = document.getElementById('login-error');
+  const successEl = document.getElementById('login-success');
+  errorEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  if (!nameInput || !passInput) {
+    errorEl.textContent = 'Please fill in both fields.';
+    errorEl.classList.add('show');
+    return;
+  }
+
+  const account = ACCOUNTS.find(a =>
+    a.name.toLowerCase() === nameInput.toLowerCase() && a.password === passInput
+  );
+
+  if (account) {
+    currentUser = account.name;
+    currentRole = account.role;
+    try {
+      sessionStorage.setItem('mmlounge_user', account.name);
+      sessionStorage.setItem('mmlounge_role', account.role);
+    } catch(e) {}
+    successEl.classList.add('show');
+    if (account.role === 'owner') launchConfetti();
+    setTimeout(() => { window.location.href = 'index.html'; }, 1400);
+  } else {
+    errorEl.textContent = 'Incorrect name or password. Please try again.';
+    errorEl.classList.add('show');
+    document.getElementById('login-password').value = '';
+  }
 }
 
 </script>
